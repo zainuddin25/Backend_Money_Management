@@ -14,28 +14,31 @@ export class User {
   id: string;
 
   @Column()
-  firstName: string;
+  username: string;
 
   @Column()
-  lastName: string;
+  password: string;
+
+  @Column()
+  email: string
 
   @Column({ default: true })
   isActive: boolean;
 
   @CreateDateColumn({
-    type: 'timestamp with time zone',
+    type: 'timestamp',
     nullable: false,
   })
   createdAt: Date;
 
   @UpdateDateColumn({
-    type: 'timestamp with time zone',
+    type: 'timestamp',
     nullable: false,
   })
   updatedAt: Date;
 
   @DeleteDateColumn({
-    type: 'timestamp with time zone',
+    type: 'timestamp',
     nullable: true,
   })
   deletedAt: Date;

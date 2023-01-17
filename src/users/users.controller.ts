@@ -1,31 +1,29 @@
 import {
   Controller,
   Get,
-  Post,
-  Body,
-  Put,
   Param,
   Delete,
   ParseUUIDPipe,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthGuard } from '@nestjs/passport'
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    return {
-      data: await this.usersService.create(createUserDto),
-      statusCode: HttpStatus.CREATED,
-      message: 'success',
-    };
-  }
+  // @Post()
+  // async create(@Body() createUserDto: CreateUserDto) {
+  //   return {
+  //     data: await this.usersService.create(createUserDto),
+  //     statusCode: HttpStatus.CREATED,
+  //     message: 'success',
+  //   };
+  // }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   async findAll() {
     const [data, count] = await this.usersService.findAll();
@@ -47,17 +45,17 @@ export class UsersController {
     };
   }
 
-  @Put(':id')
-  async update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
-    return {
-      data: await this.usersService.update(id, updateUserDto),
-      statusCode: HttpStatus.OK,
-      message: 'success',
-    };
-  }
+  // @Put(':id')
+  // async update(
+  //   @Param('id', ParseUUIDPipe) id: string,
+  //   @Body() updateUserDto: UpdateUserDto,
+  // ) {
+  //   return {
+  //     data: await this.usersService.update(id, updateUserDto),
+  //     statusCode: HttpStatus.OK,
+  //     message: 'success',
+  //   };
+  // }
 
   @Delete(':id')
   async remove(@Param('id', ParseUUIDPipe) id: string) {
